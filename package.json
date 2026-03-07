@@ -1,5 +1,5 @@
 {
-  "name": "Vaultr",
+  "name": "vaultr",
   "private": true,
   "scripts": {
     "build": "turbo run build",
