@@ -1,0 +1,26 @@
+{
+  "name": "@vaultr/db",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "build": "bun run clean && pnpm run db:generate && tsc",
+    "dev": "tsc -w",
+    "clean": "rm -rf dist generated",
+    "lint": "eslint . --ext .ts,.tsx",
+    "db:generate": "prisma generate",
+    "db:migrate:dev": "prisma migrate dev --name init",
+    "db:studio": "prisma studio",
+    "db:push": "prisma db push"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.4.2",
+    "prisma": "^7.4.2"
+  }
+}

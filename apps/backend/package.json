@@ -1,0 +1,14 @@
+{
+  "name": "@vulter/backend",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.12.5",
+    "@vaultr/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@types/bun": "latest"
+  }
+}
