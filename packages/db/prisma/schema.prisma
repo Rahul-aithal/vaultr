@@ -12,3 +12,15 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model ShareLink {
+  id          String   @id @default(uuid())
+  fileKey     String              // MinIO object key
+  fileName    String              // original file name
+  mimeType    String              // file type
+  fileSize    Int                 // in bytes
+  expiresAt   DateTime            // when the link dies
+  downloads   Int      @default(0) // download count
+  maxDownloads Int?               // optional download limit
+  createdAt   DateTime @default(now())
+}
