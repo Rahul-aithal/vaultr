@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vaultr
 
-## Getting Started
+Vaultr is a secure, modern file-sharing and storage platform designed for simplicity and speed. It allows users to securely upload files, manage access with expiration dates and download limits, and monitor system health through integrated observability tools.
 
-First, run the development server:
+## 🚀 Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Secure File Sharing**: Upload files with customizable expiration times and maximum download counts.
+- **Unified Dashboard**: Manage your shared links and track download statistics in real-time.
+- **Seamless Authentication**: Fast and secure login powered by Better Auth and GitHub OAuth.
+- **S3-Compatible Storage**: Flexible file handling using MinIO for scalable storage solutions.
+- **System Observability**: Built-in monitoring with Prometheus and Grafana to track performance and usage.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Frontend & Framework
+- **[Next.js 16](https://nextjs.org/)**: React framework for building performant web applications.
+- **[React 19](https://react.dev/)**: The latest in UI component development.
+- **[Tailwind CSS 4](https://tailwindcss.com/)**: Utility-first styling for a modern, responsive interface.
+- **[Radix UI](https://www.radix-ui.com/)**: Unstyled, accessible UI primitives.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Backend & Database
+- **[Drizzle ORM](https://orm.drizzle.team/)**: Type-safe TypeScript ORM for interacting with PostgreSQL.
+- **[PostgreSQL](https://www.postgresql.org/)**: Robust relational database for managing metadata and users.
+- **[Better Auth](https://www.better-auth.com/)**: Comprehensive authentication for modern web apps.
+- **[MinIO](https://min.io/)**: High-performance, S3-compatible object storage.
 
-## Learn More
+### Infrastructure & DevOps
+- **[Bun](https://bun.sh/)**: Extremely fast JavaScript runtime and package manager.
+- **[Docker](https://www.docker.com/)**: Containerization for easy deployment and local service management.
+- **[Prometheus](https://prometheus.io/)**: Open-source systems monitoring and alerting toolkit.
+- **[Grafana](https://grafana.com/)**: The open observability platform for visualizing metrics.
 
-To learn more about Next.js, take a look at the following resources:
+## ⚙️ Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Install Dependencies**:
+   ```bash
+   bun install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Launch Services**:
+   ```bash
+   docker-compose up -d
+   ```
 
-## Deploy on Vercel
+3. **Setup Database**:
+   ```bash
+   bun db:push
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Run Development Server**:
+   ```bash
+   bun dev
+   ```
