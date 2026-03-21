@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1774065729111,
+      "tag": "0000_fearless_wilson_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774092115303,
+      "tag": "0001_harsh_emma_frost",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774092883668,
+      "tag": "0002_medical_galactus",
+      "breakpoints": true
+    }
+  ]
+}
