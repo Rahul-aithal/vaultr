@@ -3,7 +3,8 @@ FROM oven/bun:1 AS base
 # Install dependencies
 FROM base AS deps
 WORKDIR /app
-COPY package.json bun.lockb ./
+COPY package.json ./
+COPY bun.lock ./
 RUN bun install --frozen-lockfile
 
 # Build
@@ -11,6 +12,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
 RUN bun run build
 
 # Runner

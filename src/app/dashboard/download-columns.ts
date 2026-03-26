@@ -2,7 +2,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 type Download = {
-  fileName: string;
+  name: string;
   fileLink: string;
   downloadedAt: Date;
   status: string|null;
@@ -10,8 +10,8 @@ type Download = {
 
 export const downloadColumns: ColumnDef<Download>[] = [
   {
-    accessorKey: "fileName",
-    header: "File Name",
+    accessorKey: "name",
+    header: "Name",
   },
   {
     accessorKey: "fileLink",
