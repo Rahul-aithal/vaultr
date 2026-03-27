@@ -1,6 +1,12 @@
+import { Navbar } from "@/components/Navbar";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  const user = session?.user;
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans overflow-hidden">
 
@@ -11,36 +17,7 @@ export default function Home() {
         <div className="absolute bottom-[-10%] left-[30%] w-[400px] h-[400px] rounded-full bg-primary/6 blur-[120px]" />
       </div>
 
-      {/* Sticky Nav */}
-      <nav className=" z-10 flex items-center justify-between px-8 py-4 border-b border-border/40 backdrop-blur-md bg-background/60 sticky top-0">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-sm shadow-primary/30">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 1L2 4.5V9C2 12.04 4.69 14.82 8 15.5C11.31 14.82 14 12.04 14 9V4.5L8 1Z" fill="white" fillOpacity="0.95" />
-              <path d="M5.5 9L7 10.5L10.5 7" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
-            </svg>
-          </div>
-          <span className="text-base font-bold tracking-tight">vaultr</span>
-        </div>
-
-        <div className="hidden sm:flex items-center gap-8 text-sm text-muted-foreground">
-          <a href="#features" className="hover:text-foreground transition-colors">Features</a>
-          <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
-          <a href="#" className="hover:text-foreground transition-colors">Docs</a>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Link href="/login" className="hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Sign in
-          </Link>
-          <Link
-            href="/login"
-            className="text-sm font-medium px-4 py-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition-opacity shadow-sm shadow-primary/20"
-          >
-            Get started free
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <main className="relative z-10 flex flex-col items-center text-center px-6 pt-20 pb-12">
@@ -64,14 +41,14 @@ export default function Home() {
 
         <div className="flex flex-col sm:flex-row gap-3 mb-4">
           <Link
-            href="/login"
+            href={user ? "/dashboard/upload" : "/login"}
             className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity text-sm shadow-lg shadow-primary/25"
           >
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
               <path d="M7.5 2V11M7.5 2L4.5 5M7.5 2L10.5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M2 12.5H13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
             </svg>
-            Upload a file free
+            {user ? "Upload a file" : "Upload a file free"}
           </Link>
           <a
             href="#features"
@@ -84,7 +61,20 @@ export default function Home() {
           </a>
         </div>
 
-        <p className="text-xs text-muted-foreground mb-16">No credit card required · Free forever up to 5GB</p>
+        {user ? (
+          <p className="text-xs text-muted-foreground mb-16">
+            Welcome back,{" "}
+            <span className="font-medium text-foreground">{user.name?.split(" ")[0]}</span>! Head to your{" "}
+            <Link href="/dashboard" className="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">
+              dashboard
+            </Link>{" "}
+            to manage your files.
+          </p>
+        ) : (
+          <p className="text-xs text-muted-foreground mb-16">
+            No credit card required · Free forever up to 5GB
+          </p>
+        )}
 
         {/* App preview card */}
         <div className="w-full max-w-2xl rounded-2xl border border-border bg-card shadow-2xl shadow-black/10 overflow-hidden">
@@ -180,12 +170,6 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             {
-              icon: (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L4 5V10C4 13.31 6.67 16.42 10 17C13.33 16.42 16 13.31 16 10V5L10 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /><path d="M7 10L9 12L13 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>),
-              title: "End-to-end encrypted",
-              desc: "Files are encrypted before leaving your device. Only you and your recipient can read them.",
-              accent: "text-primary", bg: "bg-primary/10",
-            },
-            {
               icon: (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" strokeWidth="1.5" /><path d="M10 6V10L13 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>),
               title: "Expiring links",
               desc: "Set links to expire after a time limit or number of downloads. Stay in full control.",
@@ -225,76 +209,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="relative z-10 px-6 py-24 max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <p className="text-xs font-medium text-primary uppercase tracking-widest mb-2">Pricing</p>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground">Simple, honest pricing</h2>
-          <p className="text-muted-foreground text-sm mt-3">Start free. Upgrade when you need more.</p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            {
-              name: "Free", price: "$0", period: "forever",
-              desc: "Perfect for personal use and occasional sharing.",
-              features: ["5 GB storage", "Expiring links", "Download tracking", "All file types", "No account for recipients"],
-              cta: "Get started", href: "/login", highlight: false,
-            },
-            {
-              name: "Pro", price: "$9", period: "per month",
-              desc: "For power users who share files regularly.",
-              features: ["100 GB storage", "Everything in Free", "Password-protected links", "Custom link aliases", "Priority support"],
-              cta: "Start free trial", href: "/login", highlight: true,
-            },
-            {
-              name: "Team", price: "$29", period: "per month",
-              desc: "For teams that need collaboration and control.",
-              features: ["1 TB storage", "Everything in Pro", "Team workspace", "Admin controls", "Audit logs", "SSO / SAML"],
-              cta: "Contact sales", href: "mailto:hello@vaultr.app", highlight: false,
-            },
-          ].map((plan) => (
-            <div
-              key={plan.name}
-              className={`rounded-2xl border p-6 flex flex-col relative ${plan.highlight ? "border-primary bg-primary/5 shadow-lg shadow-primary/10" : "border-border bg-card"}`}
-            >
-              {plan.highlight && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="text-[11px] font-semibold px-3 py-1 rounded-full bg-primary text-primary-foreground shadow-sm whitespace-nowrap">
-                    Most popular
-                  </span>
-                </div>
-              )}
-              <div className="mb-5">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">{plan.name}</p>
-                <div className="flex items-end gap-1 mb-1">
-                  <span className="text-4xl font-bold text-foreground tracking-tight">{plan.price}</span>
-                  <span className="text-sm text-muted-foreground mb-1">/{plan.period}</span>
-                </div>
-                <p className="text-xs text-muted-foreground">{plan.desc}</p>
-              </div>
-              <ul className="space-y-2.5 mb-6 flex-1">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2.5 text-sm text-foreground">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0">
-                      <circle cx="7" cy="7" r="6" fill="currentColor" className={plan.highlight ? "text-primary" : "text-muted"} />
-                      <path d="M4.5 7L6 8.5L9.5 5.5" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={plan.href}
-                className={`w-full py-2.5 rounded-xl text-sm font-semibold text-center transition-all ${plan.highlight ? "bg-primary text-primary-foreground hover:opacity-90 shadow-sm shadow-primary/20" : "border border-border hover:bg-muted text-foreground"}`}
-              >
-                {plan.cta}
-              </Link>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* CTA Banner */}
       <section className="relative z-10 px-6 pb-24 max-w-5xl mx-auto">
         <div className="rounded-2xl border border-primary/20 bg-primary/6 px-8 py-14 flex flex-col items-center text-center">
@@ -304,19 +218,50 @@ export default function Home() {
               <path d="M7.5 11L9.5 13L14.5 9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="text-primary" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground mb-2">Ready to share securely?</h2>
-          <p className="text-sm text-muted-foreground max-w-sm mb-6">
-            Join thousands of users who trust Vaultr. Free to get started, no credit card required.
-          </p>
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity shadow-md shadow-primary/20"
-          >
-            Start for free
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-              <path d="M3 6.5H10M10 6.5L7 3.5M10 6.5L7 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </Link>
+
+          {user ? (
+            <>
+              <h2 className="text-2xl font-bold tracking-tight text-foreground mb-2">
+                Welcome back, {user.name?.split(" ")[0]}!
+              </h2>
+              <p className="text-sm text-muted-foreground max-w-sm mb-6">
+                Head to your dashboard to manage files, track downloads, and share securely.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity shadow-md shadow-primary/20"
+                >
+                  Go to dashboard
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <path d="M3 6.5H10M10 6.5L7 3.5M10 6.5L7 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Link>
+                <Link
+                  href="/dashboard/upload"
+                  className="inline-flex items-center gap-2 px-7 py-3 rounded-full border border-primary/30 text-primary font-semibold text-sm hover:bg-primary/10 transition-colors"
+                >
+                  Upload a file
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-2xl font-bold tracking-tight text-foreground mb-2">Ready to share securely?</h2>
+              <p className="text-sm text-muted-foreground max-w-sm mb-6">
+                Join thousands of users who trust Vaultr. Free to get started, no credit card required.
+              </p>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity shadow-md shadow-primary/20"
+              >
+                Start for free
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <path d="M3 6.5H10M10 6.5L7 3.5M10 6.5L7 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </>
+          )}
         </div>
       </section>
 

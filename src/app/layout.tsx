@@ -20,6 +20,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vaultr",
   description: "Send, receive, and store files securely — end-to-end encrypted, expiring links, and no account required for recipients.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  authors:[{name:"Rahul Aithal",url:"rahulaithal.site"}],
+ applicationName:"file sharing application"
 };
 
 export default function RootLayout({

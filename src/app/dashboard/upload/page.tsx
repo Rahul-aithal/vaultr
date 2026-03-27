@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { uploadFile } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { uploadFile } from "./actions";
 
 export default function UploadPage() {
   const [enabled, setEnabled] = useState(true);
@@ -14,6 +14,7 @@ export default function UploadPage() {
   const [loading, setLoading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [displayName, setDisplayName] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,6 +27,12 @@ export default function UploadPage() {
     setLoading(false);
   };
 
+  useEffect(()=>{
+   if(selectedFile===null){
+     return;
+   }
+   setDisplayName(selectedFile.name);
+  },[selectedFile])
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     setSelectedFile(file);
@@ -147,11 +154,13 @@ export default function UploadPage() {
               <Input
                 type="text"
                 name="name"
-                placeholder="e.g. Project Brief Q4"
+                value={displayName}
+                onChange={(e)=>{setDisplayName(e.target.value)}}
+                placeholder="e.g. Project Brief Q4.pdf"
                 required
                 className="rounded-lg h-10 text-sm"
               />
-              <p className="text-[11px] text-muted-foreground">This is what recipients will see</p>
+              <p className="text-[11px] text-muted-foreground">This is what recipients will see (Make sure to include extention).</p>
             </div>
 
             <div className="h-px bg-border" />
