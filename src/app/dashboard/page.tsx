@@ -43,6 +43,7 @@ const Dashboard = async () => {
       downloads: fileTable.downloads,
       maxDownloads: fileTable.maxDownloads,
       enabled: fileTable.enabled,
+      allowUnkonwn:fileTable.allowUnkonwn
     })
     .from(fileTable)
     .where(eq(fileTable.createdBy, session.user.id));
