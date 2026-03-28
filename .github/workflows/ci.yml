@@ -44,8 +44,8 @@ jobs:
 
       - name: Create env file
         run: |
-          printf "%s" "${{ secrets.ENV_FILE }}" > /tmp/envfile
-
+          printf "%s" "${{ secrets.ENV_FILE }}" > envfile
+      
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
@@ -54,5 +54,5 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/vaultr:${{ steps.tag.outputs.new_tag }}
             ${{ secrets.DOCKER_USERNAME }}/vaultr:latest
-          secrets: |
-            id=env,src=/tmp/envfile
+          secret-files: |
+            env=envfile
