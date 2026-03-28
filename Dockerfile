@@ -15,14 +15,9 @@ COPY . .
 # Build args
 # Use secrets during build only
 RUN --mount=type=secret,id=env \
-    echo "----ENV FILE----" && \
-    cat -A /run/secrets/env && \
-    echo "--------------" && \
     set -a && \
     . /run/secrets/env && \
     set +a && \
-    echo "MINIO_ENDPOINT=$MINIO_ENDPOINT" && \
-    echo "BETTER_AUTH_SECRET=$BETTER_AUTH_SECRET" && \
     bun run build
 
 
