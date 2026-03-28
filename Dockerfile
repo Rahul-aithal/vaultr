@@ -14,11 +14,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Build args
 # Use secrets during build only
-
 RUN --mount=type=secret,id=env \
-    set -a && \
-    . /run/secrets/env && \
-    set +a && \
+    while IFS= read -r line; do \
+      if [ -n "$line" ]; then export "$line"; fi; \
+    done < /run/secrets/env && \
     bun run build
 
 
