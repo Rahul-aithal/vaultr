@@ -48,6 +48,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > /tmp/envfile
+          
       # Build and push Docker image
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
@@ -58,4 +62,4 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/vaultr:${{ steps.tag.outputs.new_tag }}
             ${{ secrets.DOCKER_USERNAME }}/vaultr:latest
           secrets: |
-            env=${{ secrets.ENV_FILE }}
+            id=env,src=/tmp/envfile
