@@ -15,9 +15,13 @@ COPY . .
 # Build args
 # Use secrets during build only
 RUN --mount=type=secret,id=env \
-    while IFS= read -r line; do \
-      if [ -n "$line" ]; then export "$line"; fi; \
-    done < /run/secrets/env && \
+    echo "----ENV START----" && \
+    cat /run/secrets/env && \
+    echo "----ENV END----" && \
+    set -a && \
+    . /run/secrets/env && \
+    set +a && \
+    env && \
     bun run build
 
 
