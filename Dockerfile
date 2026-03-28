@@ -12,8 +12,15 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Build args
+# Use secrets during build only
 
-RUN bun run build
+RUN --mount=type=secret,id=env \
+    set -a && \
+    . /run/secrets/env && \
+    set +a && \
+    bun run build
+
 
 # Runner
 FROM base AS runner
