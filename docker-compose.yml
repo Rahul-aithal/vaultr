@@ -1,7 +1,6 @@
 services:
   web:
-    build:
-      context: .
+    image: rahulaithal461/vaultr:latest	
     env_file:
       - .env.local
     ports:
