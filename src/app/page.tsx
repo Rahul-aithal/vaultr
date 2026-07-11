@@ -24,7 +24,7 @@ export default async function Home() {
 
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-medium mb-7">
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          Now in public beta — free for 5GB
+          Now in public beta
         </div>
 
         <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.08] max-w-3xl mb-6">
@@ -108,7 +108,7 @@ export default async function Home() {
               </div>
               <div>
                 <p className="text-sm font-medium text-foreground">Drop files or <span className="text-primary">click to browse</span></p>
-                <p className="text-xs text-muted-foreground mt-0.5">Up to 5GB free · All formats supported</p>
+                <p className="text-xs text-muted-foreground mt-0.5"> All formats supported</p>
               </div>
             </div>
 

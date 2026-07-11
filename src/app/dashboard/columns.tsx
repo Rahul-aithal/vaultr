@@ -67,10 +67,10 @@ export const columns: ColumnDef<FileC>[] = [
         variant="ghost"
         size="sm"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="h-7 px-2 text-xs font-medium text-muted-foreground hover:text-foreground -ml-2"
+        className="h-7 px-2 text-xs font-medium text-muted-foreground hover:text-foreground -ml-2 cursor-pointer"
       >
         Downloads
-        <ArrowUpDown className="ml-1.5 h-3 w-3" />
+        <ArrowUpDown className="ml-1.5 h-3 w-3 " />
       </Button>
     ),
     cell: ({ row }) => {
@@ -107,11 +107,10 @@ export const columns: ColumnDef<FileC>[] = [
     cell: ({ row }) => {
       const enabled = row.getValue("enabled") as boolean;
       return (
-        <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full ${
-          enabled
-            ? "bg-accent/10 text-accent"
-            : "bg-muted text-muted-foreground"
-        }`}>
+        <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full ${enabled
+          ? "bg-accent/10 text-accent"
+          : "bg-muted text-muted-foreground"
+          }`}>
           <span className={`w-1.5 h-1.5 rounded-full ${enabled ? "bg-accent" : "bg-muted-foreground"}`} />
           {enabled ? "Active" : "Disabled"}
         </span>
@@ -124,11 +123,10 @@ export const columns: ColumnDef<FileC>[] = [
     cell: ({ row }) => {
       const allowed = row.getValue("allowUnkonwn") as boolean;
       return (
-        <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full ${
-          allowed
-            ? "bg-primary/10 text-primary"
-            : "bg-muted text-muted-foreground"
-        }`}>
+        <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full ${allowed
+          ? "bg-primary/10 text-primary"
+          : "bg-muted text-muted-foreground"
+          }`}>
           {allowed ? "Public" : "Auth only"}
         </span>
       );

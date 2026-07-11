@@ -49,12 +49,12 @@ function StatusPage({
 }
 
 const DownloadPage = async ({ params }: Props) => {
-  const { id } = await params;
-
+  const id = decodeURIComponent((await params).id);
+  // 9e89d0fb-1767-460b-920d-94ff51c5e451
   const record = await db
     .select()
     .from(file)
-    .where(eq(file.id, id))
+    .where(eq(file.link, id))
     .then((r) => r[0]);
 
   if (!record) {
@@ -194,11 +194,10 @@ const DownloadPage = async ({ params }: Props) => {
             Expires {new Date(record.expiresAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
           </div>
 
-          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs ${
-            isAlmostGone
-              ? "border-destructive/30 bg-destructive/5 text-destructive"
-              : "border-border bg-card text-muted-foreground"
-          }`}>
+          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs ${isAlmostGone
+            ? "border-destructive/30 bg-destructive/5 text-destructive"
+            : "border-border bg-card text-muted-foreground"
+            }`}>
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
               <path d="M5.5 2V7M5.5 7L3.5 5M5.5 7L7.5 5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M1.5 9H9.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />

@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/db/drizzle";
 import { file } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -14,12 +14,12 @@ interface Props {
 export default async function SuccessPage({ searchParams }: Props) {
   const { id } = await searchParams;
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/login");
+  if (!session?.user || !session.user.id) redirect("/login");
 
   const record = await db
     .select({ name: file.name, id: file.id })
     .from(file)
-    .where(eq(file.id, id))
+    .where(and(eq(file.id, id), eq(file.createdBy, session.user.id)))
     .then((r) => r[0]);
 
   if (!record) {
